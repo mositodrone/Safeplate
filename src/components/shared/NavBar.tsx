@@ -9,9 +9,9 @@ import { Button } from '../ui/button'
 import React from 'react'
 import { Menu, User } from 'lucide-react'
 
-const CustomLink = React.forwardRef((ref, {children}) => (
-  <a ref={ref}>{children}</a>
-));
+// const CustomLink = React.forwardRef((ref, {children}: any) => (
+//   <a href={ref}>{children}</a>
+// ));
 export default function Navbar() {
     const pathname = usePathname();
 

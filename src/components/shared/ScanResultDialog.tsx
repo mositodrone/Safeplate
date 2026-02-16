@@ -24,7 +24,7 @@ export default function ScanResultDialog({
   product,
   loading,
   error
-}) {
+}: any) {
 
   if (loading) return <ScanLoader/>;
    if (error) return <p className="text-red-500">Oop's something went wrong, Try again</p>;
@@ -98,7 +98,7 @@ export default function ScanResultDialog({
           <div>
             <h4 className="font-semibold text-gray-900">Allergens</h4>
             <div className="flex flex-wrap gap-2 mt-2">
-              {product?.allergens?.map((a, i) => (
+              {product?.allergens?.map((a: any, i: any)=> (
                 <span
                   key={i}
                   className="px-3 py-1 text-xs rounded-full bg-red-700 text-white"
@@ -156,7 +156,7 @@ export default function ScanResultDialog({
     </Dialog>
   );
 
-  function NutritionPill({ label, value, unit }) {
+  function NutritionPill({ label, value, unit }: any) {
     if (value == null) return null;
 
     return (

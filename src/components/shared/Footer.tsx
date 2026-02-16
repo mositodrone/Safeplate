@@ -80,7 +80,7 @@ function FooterColumn({ title, links }: any) {
     <div className="space-y-4">
       <h4 className="text-sm font-semibold">{title}</h4>
       <ul className="space-y-2 text-sm text-neutral-800">
-        {links.map((link) => (
+        {links.map((link: any) => (
           <li key={link} className="cursor-pointer hover:underline">
             {link}
           </li>
@@ -90,7 +90,7 @@ function FooterColumn({ title, links }: any) {
   );
 }
 
-function SocialIcon({ icon }) {
+function SocialIcon({ icon }: any) {
   return (
     <button className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-700 text-neutral-800 hover:bg-neutral-900 hover:text-white transition">
       {icon}
