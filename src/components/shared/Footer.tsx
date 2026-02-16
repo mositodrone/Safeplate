@@ -75,7 +75,7 @@ export default function Footer() {
 
 /* ---------- Helpers ---------- */
 
-function FooterColumn({ title, links }) {
+function FooterColumn({ title, links }: any) {
   return (
     <div className="space-y-4">
       <h4 className="text-sm font-semibold">{title}</h4>
