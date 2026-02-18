@@ -78,6 +78,8 @@ export default function Navbar() {
               <Link href="/sign-in">
                 Sign In
               </Link>
+            </Button>
+            <Button asChild className="button bg-purple-gradient bg-cover text-white">
               <Link href="/sign-up">
                 Sign Up
               </Link>
