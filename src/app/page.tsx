@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function ScanPage() {
   const [open, setOpen] = useState(false)
+  const [barcode, setBarcode] = useState("")
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,11 +43,13 @@ export default function ScanPage() {
       <HeroSection/>
       
       <ScanBar 
-        onSearch={handleSearch} 
-        />
+        onSearch={handleSearch}
+        setBar={setBarcode} 
+      />
 
       <ScanResultDialog
         open={open}
+        barCode={barcode}
         setOpen={setOpen}
         product={product}
         loading={loading}

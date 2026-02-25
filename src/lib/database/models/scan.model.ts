@@ -30,30 +30,27 @@ export interface SScan extends Document {
 }
 
 const ScanSchema = new Schema({
-  title: { type: String, required: true },
   barcode: {
       type: String,
       required: true,
     },
-  publicId: { type: String, required: true },
-  secureURL: { type: String, required: true },
   productName: {type: String,},
   brand: {type: String},
   imageUrl: {type: String},
   config: { type: Object },
-   nutrition: {
-      calories: Number,
-      fat: Number,
-      carbs: Number,
-      protein: Number,
-      sugar: Number,
-      salt: Number,
-    },
+  nutrition: {
+    calories: Number,
+    fat: Number,
+    carbs: Number,
+    protein: Number,
+    sugar: Number,
+    salt: Number,
+  },
 
-    ingredients: [String],
+  ingredients: [String],
 
-    nutriScore: {type: String},
-    ecoScore: {type: String},
+  nutriScore: {type: String},
+  ecoScore: {type: String},
 
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },

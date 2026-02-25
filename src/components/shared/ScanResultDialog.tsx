@@ -21,7 +21,8 @@ export default function ScanResultDialog({
   setOpen,
   product,
   loading,
-  error
+  error,
+  barcode
 }: any) {
 
   if (loading) return <ScanLoader/>;
@@ -128,7 +129,7 @@ export default function ScanResultDialog({
         <DialogFooter className="mt-6">
 
           <SignedIn>
-            <ScanActions setOpen={setOpen} product={product}/>
+            <ScanActions setOpen={setOpen} product={product} barcode={barcode}/>
             {/* <div className="flex gap-3">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 Save
