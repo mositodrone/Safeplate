@@ -11,8 +11,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import ScanLoader from "./ScanLoader";
 import ScanActions from "./ScanActions";

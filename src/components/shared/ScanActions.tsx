@@ -1,9 +1,62 @@
+"use client";
+
+import { useUser } from "@clerk/nextjs";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
 
-const ScanActions = ({setOpen}: any) => {
+const ScanActions = ({setOpen, product}: any) => {
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [saveInfo, setSaveInfo] = useState("Save")
+  
+  const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
+  const handleSave = async () => {
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/scans/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          barcode: product.barcode,
+          productName: product.productName,
+          brand: product.brand,
+          imageUrl: product.imageUrl,
+          nutrition: product.nutrition,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to save");
+
+      console.log("Saved successfully");
+      loading&&(setSaveInfo("Saving"))
+      setSaveInfo("Saved successfully")
+      await delay(2500)
+      setSaveInfo("Save")
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <div className="mt-6 flex flex-col items-center gap-3">
       <SignedIn>
@@ -12,14 +65,14 @@ const ScanActions = ({setOpen}: any) => {
             variant="secondary"
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-800 text-white cursor-pointer"
             onClick={() => {
-              // TODO: hook into save scan logic
-               // future: save scan to DB
+              handleSave
               setOpen(false);
               console.log("Save scan");
             }}
+            disabled={loading}
           >
             <Bookmark className="h-4 w-4" />
-            Save
+             {saveInfo}
           </Button>
 
           <Button
