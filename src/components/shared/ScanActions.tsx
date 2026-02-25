@@ -68,6 +68,7 @@ const ScanActions = ({setOpen, product}: any) => {
               handleSave
               setOpen(false);
               console.log("Save scan");
+              console.log(product)
             }}
             disabled={loading}
           >
