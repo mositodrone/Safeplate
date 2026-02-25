@@ -65,7 +65,7 @@ const ScanActions = ({setOpen, product}: any) => {
             variant="secondary"
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-800 text-white cursor-pointer"
             onClick={() => {
-              handleSave
+              handleSave()
               setOpen(false);
               console.log("Save scan");
               console.log(product)
