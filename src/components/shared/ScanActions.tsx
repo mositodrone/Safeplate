@@ -34,9 +34,9 @@ const ScanActions = ({setOpen, product}: any) => {
         },
         body: JSON.stringify({
           barcode: product.barcode,
-          productName: product.productName,
+          productName: product.name,
           brand: product.brand,
-          imageUrl: product.imageUrl,
+          imageUrl: product.image,
           nutrition: product.nutrition,
         }),
       });

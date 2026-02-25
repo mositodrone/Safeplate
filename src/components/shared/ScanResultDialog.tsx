@@ -128,7 +128,7 @@ export default function ScanResultDialog({
         <DialogFooter className="mt-6">
 
           <SignedIn>
-            <ScanActions setOpen={setOpen}/>
+            <ScanActions setOpen={setOpen} product={product}/>
             {/* <div className="flex gap-3">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 Save
