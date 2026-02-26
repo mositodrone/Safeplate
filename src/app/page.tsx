@@ -26,6 +26,7 @@ export default function ScanPage() {
       if (!res.ok) throw new Error(data.error);
 
       setProduct(data);
+      console.log(barcode);
     } catch (err: any) {
       setProduct(null);
       setError(err.message || "Something went wrong");
