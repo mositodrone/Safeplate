@@ -31,7 +31,7 @@ export default function ScanBar({ onSearch, setBar }: any) {
             value={barcode}
             onChange={(e) => {
               setBarcode(e.target.value)
-              setBar(e.target.value)
+              setBar(barcode)
             }}
             className="flex-1 placeholder:text-amber-50"
           />
