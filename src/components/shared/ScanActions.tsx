@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
 
-const ScanActions = ({setOpen, product, barcode}) => {
+const ScanActions = ({setOpen, product, barcode}: any) => {
   const { isSignedIn } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saveInfo, setSaveInfo] = useState("Save")
   
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
 
   const handleSave = async () => {
@@ -44,7 +44,6 @@ const ScanActions = ({setOpen, product, barcode}) => {
       if (!res.ok) throw new Error("Failed to save");
 
       console.log("Saved successfully");
-      console.log("Sending barcode:", barcode);
       loading&&(setSaveInfo("Saving"))
       setSaveInfo("Saved successfully")
       await delay(2500)
@@ -68,6 +67,7 @@ const ScanActions = ({setOpen, product, barcode}) => {
             onClick={() => {
               handleSave()
               setOpen(false);
+              console.log("Sending barcode:", barcode);
               console.log("Save scan");
               console.log(product)
             }}
