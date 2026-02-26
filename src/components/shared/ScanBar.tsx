@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 //   onSearch: (barcode: string) => void;
 // };
 
-export default function ScanBar({ onSearch, setBar }: any) {
+export default function ScanBar({ onSearch }: any) {
   const [barcode, setBarcode] = useState("");
   const [isScanning, setIsScanning] = useState(false);
 
@@ -31,7 +31,6 @@ export default function ScanBar({ onSearch, setBar }: any) {
             value={barcode}
             onChange={(e) => {
               setBarcode(e.target.value)
-              setBar(barcode)
             }}
             className="flex-1 placeholder:text-amber-50"
           />

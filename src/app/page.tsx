@@ -5,14 +5,15 @@ import HeroSection from "@/components/shared/Hero";
 import Navbar from "@/components/shared/NavBar";
 import ScanBar from "@/components/shared/ScanBar";
 import ScanResultDialog from "@/components/shared/ScanResultDialog";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function ScanPage() {
   const [open, setOpen] = useState(false)
-  const [barcode, setBarcode] = useState("")
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter()
 
   const handleSearch = async (barcode: string) => {
     try {
@@ -26,7 +27,7 @@ export default function ScanPage() {
       if (!res.ok) throw new Error(data.error);
 
       setProduct(data);
-      console.log("scanned barcode:", barcode);
+      router.push(`/scan/${barcode}`)
     } catch (err: any) {
       setProduct(null);
       setError(err.message || "Something went wrong");
@@ -45,12 +46,10 @@ export default function ScanPage() {
       
       <ScanBar 
         onSearch={handleSearch}
-        setBar={setBarcode} 
       />
 
       <ScanResultDialog
         open={open}
-        barCode={barcode}
         setOpen={setOpen}
         product={product}
         loading={loading}

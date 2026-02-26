@@ -2,18 +2,21 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
 
-const ScanActions = ({setOpen, product, barcode}: any) => {
+const ScanActions = ({setOpen, product, }: any) => {
   const { isSignedIn } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saveInfo, setSaveInfo] = useState("Save")
+
+  const params = useParams()
+  const barcode = params.barcode
   
   const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
