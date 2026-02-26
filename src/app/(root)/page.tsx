@@ -39,9 +39,7 @@ export default function ScanPage() {
 
   return (
     <div className="space-y-6"
-    >
-      <Navbar/>
-      
+    >      
       <HeroSection/>
       
       <ScanBar 
@@ -55,8 +53,6 @@ export default function ScanPage() {
         loading={loading}
         error={error}
       />
-
-      <Footer/>
     </div>
   );
 }
