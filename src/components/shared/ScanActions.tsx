@@ -15,8 +15,8 @@ const ScanActions = ({setOpen, product, }: any) => {
   const [loading, setLoading] = useState(false);
   const [saveInfo, setSaveInfo] = useState("Save")
 
-  const params = useParams()
-  const barcode = params.barcode
+  // const params = useParams()
+  const { barcode } = useParams()
   
   const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
