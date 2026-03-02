@@ -16,6 +16,43 @@ export const navLinks = [
   },
 ];
 
+export const recentTopics = [
+  "ETFs",
+  "Management",
+  "Global",
+  "Tech",
+  "Legal Industry",
+  "MVP",
+  "Data and Analytics",
+];
+
+export const savedItems = [
+  {
+    title: "Global",
+    topics: 245,
+    image:
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=400",
+  },
+  {
+    title: "Tech",
+    topics: 139,
+    image:
+      "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=400",
+  },
+  {
+    title: "Legal",
+    topics: 51,
+    image:
+      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400",
+  },
+  {
+    title: "CFO",
+    topics: 83,
+    image:
+      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400",
+  },
+];
+
 export const plans = [
   {
     _id: 1,

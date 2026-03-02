@@ -7,8 +7,18 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.openfoodfacts.org',
         port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+        port: ''
       }
-    ],
+    ]
   },
 
   typescript: {

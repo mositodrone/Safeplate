@@ -1,5 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
+import { Heart } from "lucide-react";
 import Image from "next/image";
+
+import { ArrowUpRight } from "lucide-react";
 import { redirect } from "next/navigation";
 
 // import { Collection } from "@/components/shared/Collection";
@@ -7,8 +10,9 @@ import Header from "@/components/shared/Header";
 // import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { connectDB } from "@/lib/db";
+import { recentTopics, savedItems } from "@/constants";
 
-const Profile = async ({ searchParams }: SearchParamProps) => {
+const Profile = async ({ searchParams }) => {
   // const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
 
@@ -21,45 +25,128 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <>
-      <section className="profile 
-      relative min-h-[100vh] w-full items-centerbg-cover bg-no-repeat bg-center "
-      style={{ backgroundImage: "url('/assets/images/safeplate-hero-bg.png')" }}>
-        <div className="profile-balance">
-          <p className="p-14-medium md:p-16-medium">CREDITS AVAILABLE</p>
-          <div className="mt-4 flex items-center gap-4">
-            <Image
-              src="/assets/icons/coins.svg"
-              alt="coins"
-              width={50}
-              height={50}
-              className="size-9 md:size-12"
-            />
-            <h2 className="h2-bold text-dark-600">{user.creditBalance}</h2>
-          </div>
-        </div>
+      <div className="min-h-screen bg-[#04020a] p-6 md:p-10">
+        <div className="max-w-5xl mx-auto space-y-8">
 
-        <div className="profile-image-manipulation">
-          <p className="p-14-medium md:p-16-medium">IMAGE MANIPULATION DONE</p>
-          <div className="mt-4 flex items-center gap-4">
-            <Image
-              src="/assets/icons/photo.svg"
-              alt="coins"
-              width={50}
-              height={50}
-              className="size-9 md:size-12"
-            />
-            {/* <h2 className="h2-bold text-dark-600">{images?.data.length}</h2> */}
+           {/* Top Branding */}
+          <div className="text-center text-xl font-semibold tracking-wide">
+            MyPlate
           </div>
-        </div>
-      </section>
 
-      {/* <section className="mt-8 md:mt-14">
-        <Collection
-          images={images?.data}
-          totalPages={images?.totalPages}
-          page={page}
-        />
-      </section> */}
+          {/* Welcome Section */}
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-500 text-sm">Welcome</p>
+              <h1 className="text-3xl md:text-4xl font-bold">
+                {user?.firstName}
+              </h1>
+            </div>
+
+            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200"
+                alt="User"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Impact Card */}
+          <div className="relative bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-2xl p-6 md:p-8 text-white overflow-hidden shadow-lg">
+            
+            <p className="text-sm opacity-90">Scans You've Saved</p>
+
+            <div className="flex items-center gap-3 mt-2">
+              <div className="bg-white/20 p-2 rounded-full">
+                <Heart className="w-5 h-5" />
+              </div>
+              <span className="text-4xl md:text-5xl font-bold">295</span>
+            </div>
+
+            {/* Decorative image placeholder */}
+            <div className="absolute right-4 bottom-0 w-40 h-32 opacity-20">
+              <Image
+                src={user?.photo}
+                alt="Decorative"
+                fill
+                className="object-cover rounded-xl"
+              />
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div className="bg-black rounded-2xl p-5 shadow-sm border">
+              <p className="text-sm text-gray-500">
+                Your Safe Count
+              </p>
+              <h3 className="text-2xl font-semibold mt-2">
+                210
+              </h3>
+            </div>
+
+            <div className="bg-black rounded-2xl p-5 shadow-sm border">
+              <p className="text-sm text-gray-500">
+                Your Risk Count
+              </p>
+              <h3 className="text-2xl font-semibold mt-2">
+                85
+              </h3>
+            </div>
+
+          </div>
+          
+          {/* Recent Topics */}
+          <div className="bg-black rounded-2xl p-6 shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Recent Topics</h2>
+
+            <div className="flex flex-wrap gap-3">
+              {recentTopics.map((topic) => (
+                <span
+                  key={topic}
+                  className="px-4 py-1.5 text-sm rounded-full bg-black hover:bg-gray-200 transition cursor-pointer"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Saved Items */}
+          <div className="bg-black rounded-2xl p-6 shadow-sm">
+            <h2 className="text-lg font-semibold mb-6">Saved Items</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {savedItems.map((item) => (
+                <div
+                  key={item.title}
+                  className="flex items-center justify-between rounded-xl border p-4 hover:shadow-md transition"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-16 h-16 rounded-lg object-cover"
+                    />
+
+                    <div>
+                      <h3 className="font-semibold">{item.title}</h3>
+                      <span className="text-sm text-gray-500">
+                        {item.topics} topic
+                      </span>
+                    </div>
+                  </div>
+
+                  <ArrowUpRight className="w-5 h-5 text-gray-400" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
     </>
   );
 };

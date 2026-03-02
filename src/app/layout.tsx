@@ -9,6 +9,7 @@ import Image from "next/image";
 import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import Sidebar from "@/components/shared/Sidebar";
 
 export const metadata: Metadata = {
   title: "PlateSafe",
@@ -41,7 +42,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${cn("font-Lato antialiased", lato.variable)}`}
         >
-          <img src="/assets/images/safeplate-hero-bg.png" alt="main background" className="object-cover h-[300vh] absolute z-[-1]"/>          
+          <img src="/assets/images/safeplate-hero-bg.png" alt="main background" className="object-cover h-[300vh] absolute z-[-1]"/>        
           <Navbar/>          
           {children}
           <Footer/>
