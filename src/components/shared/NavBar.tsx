@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-black/40 mb-0 z-10">
+      <nav className="w-full bg-black/80 mb-0 z-10">
         <div className="mx-auto my-0 max-w-7xl px-6 py-4 flex items-center justify-between rounded-2xl">
           {/* Left: Logo */}
           <div className="text-white font-bold tracking-wide cursor-pointer">
@@ -42,7 +42,7 @@ export default function Navbar() {
                         height={24}
                         className={`${isActive && 'brightness-200'}, m-auto`}
                       />
-                      <li className="hover:text-white cursor-pointer">{link.label}</li>
+                      <p className="hover:text-white cursor-pointer">{link.label}</p>
                     </Link>
                   </li>
 

@@ -1,11 +1,11 @@
 "use client"
 
-import Footer from "@/components/shared/Footer";
+// import Footer from "@/components/shared/Footer";
 import HeroSection from "@/components/shared/Hero";
-import Navbar from "@/components/shared/NavBar";
+// import Navbar from "@/components/shared/NavBar";
 import ScanBar from "@/components/shared/ScanBar";
 import ScanResultDialog from "@/components/shared/ScanResultDialog";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function ScanPage() {
@@ -27,7 +27,7 @@ export default function ScanPage() {
       if (!res.ok) throw new Error(data.error);
 
       setProduct(data);
-      router.push(`/scan/${barcode}`)
+      router.push(`?barcode=${barcode}`)
     } catch (err: any) {
       setProduct(null);
       setError(err.message || "Something went wrong");

@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import Image from "next/image";
 import ScanLoader from "./ScanLoader";
 import ScanActions from "./ScanActions";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { X } from "lucide-react";
 
 export default function ScanResultDialog({
   open,
@@ -40,6 +42,12 @@ export default function ScanResultDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
+
+         <DialogClose asChild>
+          <button className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition">
+            <X className="h-4 w-4" />
+          </button>
+        </DialogClose>
 
         <DialogHeader>
           <DialogTitle>

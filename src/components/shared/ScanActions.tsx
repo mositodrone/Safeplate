@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,8 @@ const ScanActions = ({setOpen, product, }: any) => {
   const [saveInfo, setSaveInfo] = useState("Save")
 
   // const params = useParams()
-  const { barcode } = useParams()
+  const searchParams = useSearchParams();
+  const barcode = searchParams.get("barcode");
   
   const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -47,10 +48,11 @@ const ScanActions = ({setOpen, product, }: any) => {
       if (!res.ok) throw new Error("Failed to save");
 
       console.log("Saved successfully");
-      loading&&(setSaveInfo("Saving"))
-      setSaveInfo("Saved successfully")
-      await delay(2500)
-      setSaveInfo("Save")
+      loading&&(setSaveInfo("Saving"));
+      setSaveInfo("Saved successfully");
+      await delay(2500);
+      setSaveInfo("Save");
+      setOpen(false);
 
     } catch (err) {
       console.error(err);
@@ -69,7 +71,6 @@ const ScanActions = ({setOpen, product, }: any) => {
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-800 text-white cursor-pointer"
             onClick={() => {
               handleSave()
-              setOpen(false);
               console.log("Sending barcode:", barcode);
               console.log("Save scan");
               console.log(product)

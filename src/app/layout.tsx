@@ -4,9 +4,11 @@ import "./globals.css";
 import { Lato } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClerkProvider, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import SidebarPanel from "@/components/shared/Sidebar";
 import Image from "next/image";
 import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "PlateSafe",
@@ -39,11 +41,10 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${cn("font-Lato antialiased", lato.variable)}`}
         >
-          <img src="/assets/images/safeplate-hero-bg.png" alt="main background" className="object-cover h-[300vh] absolute z-[-1]">
-            <Navbar/>          
-            {children}
-            <Footer/>
-          </img>
+          <img src="/assets/images/safeplate-hero-bg.png" alt="main background" className="object-cover h-[300vh] absolute z-[-1]"/>          
+          <Navbar/>          
+          {children}
+          <Footer/>
         </body>
       </html>
     </ClerkProvider>

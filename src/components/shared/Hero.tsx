@@ -1,7 +1,8 @@
 const HeroSection = () => {
   return (
     <section
-      className="relative min-h-[100vh] w-full items-center"
+      className="relative min-h-[100vh] w-full items-center bg-cover bg-no-repeat bg-center"
+      style={{ backgroundImage: "url('/assets/images/safeplate-hero-bg.png')" }}
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40">
