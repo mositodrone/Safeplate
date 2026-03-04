@@ -8,6 +8,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
+// import { getUserId } from "@/lib/actions/scan.actions";
 
 const ScanActions = ({setOpen, product, }: any) => {
   const { isSignedIn } = useUser();
@@ -18,6 +19,7 @@ const ScanActions = ({setOpen, product, }: any) => {
   // const params = useParams()
   const searchParams = useSearchParams();
   const barcode = searchParams.get("barcode");
+  // const userId = getUserId();
   
   const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -41,6 +43,7 @@ const ScanActions = ({setOpen, product, }: any) => {
           productName: product.name,
           brand: product.brand,
           imageUrl: product.image,
+          ingredients: product.ingredients,
           nutrition: product.nutrition,
         }),
       });
@@ -48,6 +51,7 @@ const ScanActions = ({setOpen, product, }: any) => {
       if (!res.ok) throw new Error("Failed to save");
 
       console.log("Saved successfully");
+      console.log("saved scan:", JSON.stringify(res.body))
       loading&&(setSaveInfo("Saving"));
       setSaveInfo("Saved successfully");
       await delay(2500);

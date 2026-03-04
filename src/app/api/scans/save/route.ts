@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/database/mongoose";
 import Scan from "@/lib/database/models/scan.model";
 import User from "@/lib/database/models/user.model";
 
+console.log("API SAVE ROUTE HIT");
 export async function POST(req: Request) {
   try {
     const { userId } = await auth();
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { barcode, productName, brand, imageUrl, nutrition } = body;
+    const { barcode, productName, brand, imageUrl, ingredients, nutrition } = body;
 
     await connectToDatabase();
 
@@ -33,21 +34,30 @@ export async function POST(req: Request) {
     // Prevent duplicates
     const existingScan = await Scan.findOne({
       user: user._id,
+      userId: userId,
       barcode,
     });
 
     if (existingScan) {
-      return NextResponse.json(existingScan);
+      console.log("Scan already exists");
+      return NextResponse.json(
+        {error: "Scan already exists"},
+        {status: 409}
+      );
     }
 
     const newScan = await Scan.create({
       user: user._id,
+      userId: userId,
       barcode,
       productName,
       brand,
+      ingredients,
       imageUrl,
       nutrition,
     });
+
+    console.log("userId for profile:", userId)
 
     return NextResponse.json(newScan, { status: 201 });
 

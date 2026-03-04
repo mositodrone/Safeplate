@@ -11,16 +11,19 @@ import Header from "@/components/shared/Header";
 import { getUserById } from "@/lib/actions/user.actions";
 import { connectDB } from "@/lib/db";
 import { recentTopics, savedItems } from "@/constants";
+import { GetUserScans } from "@/lib/actions/scan.actions";
 
-const Profile = async ({ searchParams }) => {
+const Profile = async () => {
   // const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
+  console.log(userId) 
 
   if (!userId) redirect("/sign-in");
-
   await connectDB();
 
   const user = await getUserById(userId);
+  const scans = await GetUserScans(userId);
+  console.log("saved:", scans)
   // const images = await getUserImages({ page, userId: user._id });
 
   return (
@@ -44,7 +47,7 @@ const Profile = async ({ searchParams }) => {
 
             <div className="relative w-16 h-16 rounded-full overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200"
+                src={user?.photo}
                 alt="User"
                 fill
                 className="object-cover"
@@ -67,7 +70,7 @@ const Profile = async ({ searchParams }) => {
             {/* Decorative image placeholder */}
             <div className="absolute right-4 bottom-0 w-40 h-32 opacity-20">
               <Image
-                src={user?.photo}
+                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=400"
                 alt="Decorative"
                 fill
                 className="object-cover rounded-xl"
@@ -119,23 +122,23 @@ const Profile = async ({ searchParams }) => {
             <h2 className="text-lg font-semibold mb-6">Saved Items</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {savedItems.map((item) => (
+              {scans.map((item: any) => (
                 <div
                   key={item.title}
                   className="flex items-center justify-between rounded-xl border p-4 hover:shadow-md transition"
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.title}
                       className="w-16 h-16 rounded-lg object-cover"
                     />
 
                     <div>
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <span className="text-sm text-gray-500">
+                      <h3 className="font-semibold">{item.brand}</h3>
+                      {/* <span className="text-sm text-gray-500">
                         {item.topics} topic
-                      </span>
+                      </span> */}
                     </div>
                   </div>
 

@@ -1,7 +1,13 @@
 import { Document, Schema, model, models, Types} from "mongoose";
 
 export interface SScan extends Document {
-  user: Types.ObjectId;
+  user: Types.ObjectId,
+
+  userId: {
+    type: String,
+    required: true,
+    index: true, // 🔥 important for performance
+  },
 
   barcode: string;
 
@@ -18,7 +24,11 @@ export interface SScan extends Document {
     salt?: number;
   };
 
-  ingredients?: string[];
+  ingredients?: [
+    {
+      type: String,
+    }
+  ];
 
   nutriScore?: string;
   ecoScore?: string;
@@ -30,6 +40,11 @@ export interface SScan extends Document {
 }
 
 const ScanSchema = new Schema({
+  userId: {
+    type: String,
+    required: true,
+    index: true, // 🔥 important for performance
+  },
   barcode: {
       type: String,
       required: true,
@@ -57,6 +72,6 @@ const ScanSchema = new Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-const Scan = models?.scan || model('Scan', ScanSchema);
+const Scan = models?.Scan || model('Scan', ScanSchema);
 
 export default Scan;

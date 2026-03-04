@@ -4,6 +4,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navLinks } from '@/constants'
@@ -87,25 +88,26 @@ export default function Navbar() {
                   side="right"
                   className="w-72 bg-black"
                 >
-                  <div className="pt-10 ml-auto border-b">
-                    <UserButton 
-                        showName 
-                        appearance={{
-                        variables: {
-                          colorPrimary: '#ff0000', // Change primary color to red
-                          colorText: 'gray',     // Change text color to green
-                        },
-                      }} 
-                    />
-                  </div>
+                  <SheetTitle>
+                    <div className="pt-10 ml-auto border-b">
+                      <UserButton 
+                          showName 
+                          appearance={{
+                          variables: {
+                            colorPrimary: '#ff0000', // Change primary color to red
+                            colorText: 'gray',     // Change text color to green
+                          },
+                        }} 
+                      />
+                    </div>
+                  </SheetTitle>
                   <div className="flex flex-col gap-6 mt-10">
                     {navLinks.slice(0, 6).map((link) => {
                       const isActive = link.route === pathname;
 
                       return (
-                        <SheetClose>
+                        <SheetClose key={link.route}>
                           <Link
-                            key={link.route}
                             href={link.route}
                             className={`text-base ${
                               isActive ? "font-semibold" : ""
