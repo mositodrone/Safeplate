@@ -10,10 +10,12 @@ import Header from "@/components/shared/Header";
 // import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { connectDB } from "@/lib/db";
-import { recentTopics, savedItems } from "@/constants";
-import { GetUserScans } from "@/lib/actions/scan.actions";
+import { recentScans, savedItems } from "@/constants";
+import { GetUserScans, GetUserScanStats } from "@/lib/actions/scan.actions";
+import SavedScanDialog from "@/components/shared/SavedScanDialog";
+import ProfileComponent from "@/components/shared/ProfileComponent";
 
-const Profile = async () => {
+const Profile = async () => {    
   // const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
   console.log(userId) 
@@ -23,6 +25,9 @@ const Profile = async () => {
 
   const user = await getUserById(userId);
   const scans = await GetUserScans(userId);
+  const scanAmount = await GetUserScanStats(userId);
+
+  const { total, safe, risky } = scanAmount;
   console.log("saved:", scans)
   // const images = await getUserImages({ page, userId: user._id });
 
@@ -30,7 +35,6 @@ const Profile = async () => {
     <>
       <div className="min-h-screen bg-[#04020a] p-6 md:p-10">
         <div className="max-w-5xl mx-auto space-y-8">
-
            {/* Top Branding */}
           <div className="text-center text-xl font-semibold tracking-wide">
             MyPlate
@@ -64,7 +68,7 @@ const Profile = async () => {
               <div className="bg-white/20 p-2 rounded-full">
                 <Heart className="w-5 h-5" />
               </div>
-              <span className="text-4xl md:text-5xl font-bold">295</span>
+              <span className="text-4xl md:text-5xl font-bold">{total}</span>
             </div>
 
             {/* Decorative image placeholder */}
@@ -86,7 +90,7 @@ const Profile = async () => {
                 Your Safe Count
               </p>
               <h3 className="text-2xl font-semibold mt-2">
-                210
+                {safe}
               </h3>
             </div>
 
@@ -95,7 +99,7 @@ const Profile = async () => {
                 Your Risk Count
               </p>
               <h3 className="text-2xl font-semibold mt-2">
-                85
+                {risky}
               </h3>
             </div>
 
@@ -103,13 +107,13 @@ const Profile = async () => {
           
           {/* Recent Topics */}
           <div className="bg-black rounded-2xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">Recent Topics</h2>
+            <h2 className="text-lg font-semibold mb-4">Recent Scans</h2>
 
             <div className="flex flex-wrap gap-3">
-              {recentTopics.map((topic) => (
+              {recentScans.map((topic) => (
                 <span
                   key={topic}
-                  className="px-4 py-1.5 text-sm rounded-full bg-black hover:bg-gray-200 transition cursor-pointer"
+                  className="px-4 py-1.5 text-sm rounded-full bg-black hover:bg-gray-200  hover:text-black transition cursor-pointer"
                 >
                   {topic}
                 </span>
@@ -120,32 +124,7 @@ const Profile = async () => {
           {/* Saved Items */}
           <div className="bg-black rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-6">Saved Items</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {scans.map((item: any) => (
-                <div
-                  key={item.title}
-                  className="flex items-center justify-between rounded-xl border p-4 hover:shadow-md transition"
-                >
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-16 h-16 rounded-lg object-cover"
-                    />
-
-                    <div>
-                      <h3 className="font-semibold">{item.brand}</h3>
-                      {/* <span className="text-sm text-gray-500">
-                        {item.topics} topic
-                      </span> */}
-                    </div>
-                  </div>
-
-                  <ArrowUpRight className="w-5 h-5 text-gray-400" />
-                </div>
-              ))}
-            </div>
+            <ProfileComponent scans={scans}/>            
           </div>
 
         </div>

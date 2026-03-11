@@ -20,11 +20,11 @@ const populateUser = (query: any) => query.populate({
 //   return userId
 // }
 
-export async function DeleteScan(_id: string) {
+export async function DeleteUserScan(barcode: string) {
   try {
     await connectToDatabase();
 
-    await Scan.findByIdAndDelete(_id);
+    await Scan.findByIdAndDelete(barcode);
 
     return { success: true };
   } catch (error) {
@@ -45,6 +45,26 @@ export async function GetScanByBarcode(scanId: string) {
   } catch (error) {
     throw new Error("Failed to fetch scan");
   }
+}
+
+export async function GetUserScanStats(userId: string) {
+  await connectToDatabase();
+
+  const scans = await Scan.find({ userId }).select("allergens");
+
+  const total = scans.length;
+
+  const risky = scans.filter(
+    (scan) => scan.allergens && scan.allergens.length > 0
+  ).length;
+
+  const safe = total - risky;
+
+  return {
+    total,
+    safe,
+    risky,
+  };
 }
 
 export async function GetUserScans(userId: string) {

@@ -29,7 +29,10 @@ export default function Navbar() {
         <div className="mx-auto my-0 max-w-7xl px-6 py-4 flex items-center justify-between rounded-2xl">
           {/* Left: Logo */}
           <div className="text-white font-bold tracking-wide cursor-pointer">
-            MYPLATE
+            <Link href="/">
+              MYPLATE
+            </Link>
+            
           </div>
 
           {/* Center: Nav links */}

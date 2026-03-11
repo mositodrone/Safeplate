@@ -29,6 +29,7 @@ export interface SScan extends Document {
       type: String,
     }
   ];
+  allergens?: string;
 
   nutriScore?: string;
   ecoScore?: string;
@@ -63,6 +64,7 @@ const ScanSchema = new Schema({
   },
 
   ingredients: [String],
+  allergens: [String],
 
   nutriScore: {type: String},
   ecoScore: {type: String},

@@ -6,15 +6,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { Share2, Bookmark } from "lucide-react";
+import { Share2, Bookmark, Trash } from "lucide-react";
 import Link from "next/link";
 // import { getUserId } from "@/lib/actions/scan.actions";
 
-const ScanActions = ({setOpen, product, }: any) => {
+const ScanActions = ({setOpen, product, mode}: any) => {
   const { isSignedIn } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [saveInfo, setSaveInfo] = useState("Save")
+  const [deleteInfo, setDeleteInfo] = useState("Delete")
 
   // const params = useParams()
   const searchParams = useSearchParams();
@@ -45,13 +46,15 @@ const ScanActions = ({setOpen, product, }: any) => {
           imageUrl: product.image,
           ingredients: product.ingredients,
           nutrition: product.nutrition,
+          allergens: product.allergens
         }),
       });
 
       if (!res.ok) throw new Error("Failed to save");
 
       console.log("Saved successfully");
-      console.log("saved scan:", JSON.stringify(res.body))
+      const data = await res.json();
+      console.log("response:", data);
       loading&&(setSaveInfo("Saving"));
       setSaveInfo("Saved successfully");
       await delay(2500);
@@ -66,11 +69,53 @@ const ScanActions = ({setOpen, product, }: any) => {
   };
 
 
+  const handleDelete = async () => {
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/scans/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          barcode: barcode, // or barcode if that's what you delete with
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete");
+
+      console.log("Deleted successfully");
+
+      setSaveInfo("Deleting...");
+      await delay(1200);
+
+      setSaveInfo("Deleted");
+      await delay(1000);
+
+      setSaveInfo("Delete");
+
+      setOpen(false);
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+  }
+};
+
+
   return (
     <div className="mt-6 flex flex-col items-center gap-3">
       <SignedIn>
         <div className="flex gap-3">
-          <Button
+          { mode === "save" &&
+             <Button
             variant="secondary"
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-800 text-white cursor-pointer"
             onClick={() => {
@@ -80,14 +125,34 @@ const ScanActions = ({setOpen, product, }: any) => {
               console.log(product)
             }}
             disabled={loading}
-          >
-            <Bookmark className="h-4 w-4" />
-             {saveInfo}
-          </Button>
+            >
+              <Bookmark className="h-4 w-4" />
+              {saveInfo}
+            </Button>
+          }
+
+
+          { mode === "delete" &&
+            <Button
+            variant="secondary"
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-800 text-white cursor-pointer"
+            onClick={() => {
+              handleDelete()
+              console.log("Deleting scan:", barcode);
+              console.log("Scan Deleted");
+              console.log(product)
+            }}
+            disabled={loading}
+            >
+              <Trash className="h-4 w-4" />
+              {deleteInfo}
+            </Button>
+          }
+         
 
           <Button
             variant="secondary"
-            className="flex items-center gap-2 bg-rose-700 hover:bg-rose-800 text-white cursor-pointer"
+            className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white cursor-pointer"
             onClick={() => {
               // TODO: hook into share logic
               setOpen(false);

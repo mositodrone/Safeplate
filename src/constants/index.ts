@@ -16,14 +16,13 @@ export const navLinks = [
   },
 ];
 
-export const recentTopics = [
-  "ETFs",
-  "Management",
-  "Global",
-  "Tech",
-  "Legal Industry",
-  "MVP",
-  "Data and Analytics",
+export const recentScans = [
+  "All",
+  "Safe",
+  "Risky",
+  "Peanuts",
+  "Dairy",
+  "Gluten",
 ];
 
 export const savedItems = [

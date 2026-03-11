@@ -19,7 +19,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { X } from "lucide-react";
 import { useState } from "react";
 
-export default function ScanResultDialog({
+export default function SavedScanDialog({
   open,
   setOpen,
   product,
@@ -27,13 +27,13 @@ export default function ScanResultDialog({
   error,
 }: any) {
 
-  const [mode, setMode] = useState("save");
+  const [mode, setMode] = useState("delete");
 
   if (loading) return <ScanLoader/>;
    if (error) return <p className="text-red-500">Oop's something went wrong, Try again</p>;
    if (!product) return null;
 
-   const shortName = product.name
+   const shortName = product?.productName
     .trim()
     .split(/\s+/)
     
@@ -46,17 +46,17 @@ export default function ScanResultDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
 
-         <DialogClose asChild>
-          <button className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 bg-gray-100 hover:bg-gray-200 transition shadow-sm">
-            <X className="h-4 w-4  text-gray-700" />
+         <DialogClose asChild className="cursor-pointer">
+          <button className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 bg-gray-100 hover:bg-gray-400 transition shadow-sm cursor-pointer hover:scale-105">
+            <X className="h-4 w-4  text-gray-700 cursor-pointer hover:scale-105" />
           </button>
         </DialogClose>
 
         <DialogHeader>
           <DialogTitle>
-            <p className="font-semibold text-gray-900">{shortName || "Scan Result"}</p>
+            <p className="font-semibold text-gray-900">{product.brand || "Scan Result"}</p>
             <p className="text-sm text-muted-foreground">
-              {product.brand || 'Food product'}
+              {shortName || 'Food product'}
             </p>
           </DialogTitle>
 
@@ -65,7 +65,7 @@ export default function ScanResultDialog({
           </DialogDescription>
 
           <Image 
-            src={product?.image}
+            src={product?.imageUrl}
             width={96}
             height={96}
             alt="product-image"

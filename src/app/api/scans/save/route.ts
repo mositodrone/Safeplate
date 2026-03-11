@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { barcode, productName, brand, imageUrl, ingredients, nutrition } = body;
+    const { barcode, productName, brand, imageUrl, ingredients, nutrition, allergens } = body;
 
     await connectToDatabase();
 
@@ -55,6 +55,7 @@ export async function POST(req: Request) {
       ingredients,
       imageUrl,
       nutrition,
+      allergens,
     });
 
     console.log("userId for profile:", userId)
