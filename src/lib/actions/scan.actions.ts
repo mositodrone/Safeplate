@@ -30,7 +30,7 @@ export async function DeleteUserScan(barcode: string) {
   } catch (error) {
     throw new Error("Failed to delete scan");
   } finally {
-    redirect('/')
+    redirect('/profile')
   }
 }
 

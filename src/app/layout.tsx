@@ -10,6 +10,7 @@ import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Sidebar from "@/components/shared/Sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "PlateSafe",
@@ -46,6 +47,7 @@ export default function RootLayout({
           <Navbar/>          
           {children}
           <Footer/>
+          <Toaster/>
         </body>
       </html>
     </ClerkProvider>
