@@ -18,7 +18,7 @@ export async function DELETE(req: Request) {
 
     if (!barcode) {
       return NextResponse.json(
-        { error: "Scan ID required" },
+        { error: "BarCode required" },
         { status: 400 }
       );
     }

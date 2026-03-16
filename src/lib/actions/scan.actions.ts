@@ -24,14 +24,21 @@ export async function DeleteUserScan(barcode: string) {
   try {
     await connectToDatabase();
 
-    await Scan.findByIdAndDelete(barcode);
+    const { userId } = await auth();
+
+    const deleted = await Scan.findOneAndDelete({
+      barcode: barcode,
+      userId: userId,
+    });
 
     return { success: true };
   } catch (error) {
+    console.log(error)
     throw new Error("Failed to delete scan");
-  } finally {
-    redirect('/profile')
-  }
+   } 
+   //finally {
+  //   redirect('/profile')
+  // }
 }
 
 //TODO get scan by barcode

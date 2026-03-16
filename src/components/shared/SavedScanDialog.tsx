@@ -18,6 +18,7 @@ import ScanActions from "./ScanActions";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SavedScanDialog({
   open,
@@ -28,6 +29,8 @@ export default function SavedScanDialog({
 }: any) {
 
   const [mode, setMode] = useState("delete");
+
+  const router = useRouter();
 
   if (loading) return <ScanLoader/>;
    if (error) return <p className="text-red-500">Oop's something went wrong, Try again</p>;

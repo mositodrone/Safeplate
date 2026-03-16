@@ -3,12 +3,15 @@
 import React, { useState } from 'react'
 import SavedScanDialog from './SavedScanDialog';
 import { ArrowUpRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const ProfileComponent = ({ scans }) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null)
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   return (
     <div>
@@ -25,6 +28,7 @@ const ProfileComponent = ({ scans }) => {
             key={item.title}
             className="flex items-center justify-between rounded-xl border p-4 hover:shadow-md transition cursor-pointer hover:bg-blend-overlay"
             onClick={() => {
+              router.push(`?barcode=${item.barcode}`)
               setProduct(item)
               setOpen(true)
             }}

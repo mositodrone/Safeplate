@@ -8,6 +8,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Share2, Bookmark, Trash } from "lucide-react";
 import Link from "next/link";
+import { DeleteUserScan } from "@/lib/actions/scan.actions";
 // import { getUserId } from "@/lib/actions/scan.actions";
 
 const ScanActions = ({setOpen, product, mode}: any) => {
@@ -74,21 +75,24 @@ const ScanActions = ({setOpen, product, mode}: any) => {
       router.push("/sign-in");
       return;
     }
+    console.log(barcode);
 
     try {
       setLoading(true);
+      await DeleteUserScan(barcode);
+      // const res = await fetch("/api/scans/delete", {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     barcode: barcode, // or barcode if that's what you delete with
+      //   }),
+      // });
 
-      const res = await fetch("/api/scans/delete", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          barcode: barcode, // or barcode if that's what you delete with
-        }),
-      });
+      // if (!res.ok) throw new Error("Failed to delete");
 
-      if (!res.ok) throw new Error("Failed to delete");
+      router.refresh(); // refresh server data
 
       console.log("Deleted successfully");
 
@@ -104,6 +108,7 @@ const ScanActions = ({setOpen, product, mode}: any) => {
 
     } catch (err) {
       console.error(err);
+      console.log("Failed to delete")
     } finally {
       setLoading(false);
   }
