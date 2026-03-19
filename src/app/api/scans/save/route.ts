@@ -3,8 +3,13 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import Scan from "@/lib/database/models/scan.model";
 import User from "@/lib/database/models/user.model";
+// import { toast } from "sonner";
+// import { useRouter } from "next/navigation";
 
 console.log("API SAVE ROUTE HIT");
+
+// const router = useRouter()
+
 export async function POST(req: Request) {
   try {
     const { userId } = await auth();
@@ -33,7 +38,6 @@ export async function POST(req: Request) {
 
     // Prevent duplicates
     const existingScan = await Scan.findOne({
-      user: user._id,
       userId: userId,
       barcode,
     });

@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="p-2 md:hidden">a
+        <button className="p-2 md:hidden cursor-pointer">a
           <Menu className="h-6 w-6" />
         </button>
       </SheetTrigger>

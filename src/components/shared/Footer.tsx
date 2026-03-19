@@ -2,7 +2,7 @@ import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-pink-200 text-neutral-900">
+    <footer className="bg-pink-200 text-neutral-900 overflow-clip">
       <div className="mx-auto max-w-7xl px-6 py-16">
         {/* Top section */}
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">

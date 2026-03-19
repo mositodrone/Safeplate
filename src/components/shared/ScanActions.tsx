@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Share2, Bookmark, Trash } from "lucide-react";
 import Link from "next/link";
 import { DeleteUserScan } from "@/lib/actions/scan.actions";
+import { toast } from "sonner";
 // import { getUserId } from "@/lib/actions/scan.actions";
 
 const ScanActions = ({setOpen, product, mode}: any) => {
@@ -51,8 +52,24 @@ const ScanActions = ({setOpen, product, mode}: any) => {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to save");
-
+      if (!res.ok) {
+         if (res.status === 409) {
+          toast("Already saved", {
+            id: "duplicate-save",
+            description: "This product is already in your collection.",
+            action: {
+              label: "View",
+              onClick: () => router.push(`/profile?barcode=${barcode}`),
+            },
+          });
+          throw new Error("Failed to save");
+        } 
+      }
+      if(res.status === 200) {
+        toast("Saved successfully", {
+          description: "Added to your collection",
+        });
+      }
       console.log("Saved successfully");
       const data = await res.json();
       console.log("response:", data);

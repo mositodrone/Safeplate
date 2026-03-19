@@ -1,4 +1,7 @@
-const HeroSection = () => {
+import { useState } from "react";
+
+const HeroSection = ({ setOpen }: any) => {
+  const [error, setError] = useState<string | null>(null);
   return (
     <section
       className="relative min-h-[100vh] w-full items-center bg-cover bg-no-repeat bg-center"
@@ -28,7 +31,7 @@ const HeroSection = () => {
               </a>
             </button>
 
-            <button className="px-8 py-4 rounded-xl border border-red-500 text-red-400 font-semibold hover:bg-red-500 hover:text-white transition cursor-pointer">
+            <button className="px-8 py-4 rounded-xl border border-red-500 text-red-400 font-semibold hover:bg-red-500 hover:text-white transition cursor-pointer" onClick={()=> setOpen(true)}>
               Upload Label
             </button>
           </div>

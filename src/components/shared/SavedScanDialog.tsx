@@ -49,11 +49,11 @@ export default function SavedScanDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
 
-         <DialogClose asChild className="cursor-pointer">
-          <button className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 bg-gray-100 hover:bg-gray-400 transition shadow-sm cursor-pointer hover:scale-105">
-            <X className="h-4 w-4  text-gray-700 cursor-pointer hover:scale-105" />
-          </button>
-        </DialogClose>
+          <DialogClose asChild>
+            <button className="absolute right-4 top-4 rounded-full p-2 bg-gray-100 hover:bg-gray-200 shadow-sm transition cursor-pointer">
+              <X className="h-4 w-4 text-gray-700" />
+            </button>
+          </DialogClose>
 
         <DialogHeader>
           <DialogTitle>
