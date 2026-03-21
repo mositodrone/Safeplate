@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { detectBarcodeFromImage } from "@/lib/barcode/detectBarcode";
+import { detectBarcodeZXing } from "@/lib/barcode/detectBarcode";
 import { useRouter } from "next/navigation";
 
 export default function ImageUploadDialog({
@@ -28,6 +28,7 @@ export default function ImageUploadDialog({
   onUpload: (file: File) => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   
   const preview = useMemo(() => {
@@ -56,9 +57,9 @@ export default function ImageUploadDialog({
     try {
       setLoading(true);
 
-      const barcode = await detectBarcodeFromImage(file)
+      const barcode = await detectBarcodeZXing(file)
 
-      console.log(barcode)
+      console.log("image barcode:", barcode)
 
       if (!barcode) {
       setError("No barcode detected");
@@ -72,7 +73,8 @@ export default function ImageUploadDialog({
     }
      catch (err) {
       console.error(err);
-      setError("Failed to process image");
+      setError("Failed to process image:", err);
+      console.log(error)
     } finally {
       setLoading(false);
       // onUpload(file);

@@ -36,7 +36,7 @@ export default function ScanPage() {
       const data = await res.json();
       console.log(data);
 
-      if(!data.productName) {
+      if(!data.name) {
         setModal("NOT_FOUND");
         toast("Product Unavailable", {
           id: "missing-product",
