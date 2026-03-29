@@ -3,18 +3,71 @@
 import { useState } from "react";
 
 export default function ScannerUI() {
+
   const [screen, setScreen] = useState<"start" | "scan" | "result">("start");
+  const [barcode, setBarcode] = useState<string | null>(null);
+  const [open, setOpen] = useState(false)
+   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+
+  const handleSearch = async (barcode: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      setOpen(true);
+
+      const res = await fetch(`/api/product?barcode=${barcode}`);
+      const data = await res.json();
+      console.log(data);
+
+      if(!data.name || !data.brand) {
+        setModal("NOT_FOUND");
+        toast("Product Unavailable", {
+          id: "missing-product",
+          description: "This product is Not available yet.",
+          // action: {
+          //   label: "View",
+          //   onClick: () => router.push(`/profile?barcode=${barcode}`),
+          // },
+        });
+        return;
+      }
+
+      if (!res.ok) throw new Error(data.error);
+
+        setProduct(data);
+        router.push(`?barcode=${barcode}`)
+      } catch (err: any) {
+        setProduct(null);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center">
+    <div className="h-dvh bg-black bg-cover text-white flex items-center justify-center">
       <div className="w-full max-w-sm h-screen relative overflow-hidden bg-black">
+        <ScanResultDialog
+          open={open}
+          setOpen={setOpen}
+          product={product}
+          loading={loading}
+          error={error}
+        />
         {screen === "start" && <StartScreen onStart={() => setScreen("scan")} />}
         {screen === "scan" && (
-          <ScannerScreen onDetected={() => setScreen("result")} />
+          <ScannerScreen 
+              onDetected={(code) => {
+              handleSearch(code)
+          }} />
         )}
-        {screen === "result" && (
+        {/* {screen === "result" && (
           <ResultScreen onRescan={() => setScreen("scan")} />
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -22,7 +75,7 @@ export default function ScannerUI() {
 
 function StartScreen({ onStart }: { onStart: () => void }) {
   return (
-    <div className="h-full flex flex-col justify-between bg-gradient-to-b from-black to-zinc-900">
+    <div className="min-h-dvh flex flex-col justify-between bg-gradient-to-b from-black to-zinc-900">
       {/* QR Icon */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-32 h-32 border-4 border-white rounded-xl flex items-center justify-center">
@@ -39,7 +92,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
 
         <button
           onClick={onStart}
-          className="w-14 h-14 rounded-full bg-yellow-400 flex items-center justify-center mx-auto shadow-lg"
+          className="w-14 h-14 rounded-full bg-yellow-400 flex items-center justify-center mx-auto shadow-lg cursor-pointer"
         >
           →
         </button>
@@ -50,6 +103,7 @@ function StartScreen({ onStart }: { onStart: () => void }) {
 
 import { useEffect, useRef } from "react";
 import { BrowserMultiFormatReader } from "@zxing/browser";
+import ScanResultDialog from "@/components/shared/ScanResultDialog";
 
 function ScannerScreen({ onDetected }: { onDetected: () => void }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -58,26 +112,49 @@ function ScannerScreen({ onDetected }: { onDetected: () => void }) {
     const reader = new BrowserMultiFormatReader();
     let active = true;
 
-    reader.decodeFromVideoDevice(
-      undefined,
-      videoRef.current!,
-      (result) => {
-        if (result && active) {
-          active = false;
-          reader.reset();
-          onDetected();
+    const start = async () => {
+      if (!videoRef.current) return;
+
+      const devices = await BrowserMultiFormatReader.listVideoInputDevices();
+
+      const backCamera = devices.find((d) =>
+        d.label.toLowerCase().includes("back")
+      )?.deviceId || devices[0]?.deviceId;
+
+      reader.decodeFromVideoDevice(
+        backCamera,
+        videoRef.current!,
+        (result) => {
+          if (result && active) {
+            active = false;
+
+            const code = result.getText();
+            console.log("Scanned:", code);
+
+            reader.reset();
+            onDetected(code);
+          }
         }
-      }
-    );
+      );
+    };
+
+    start();
 
     return () => {
-      active = false;
-      reader.reset();
+      setTimeout(() => {
+        active = false;
+        reader.reset();
+        onDetected(code);
+      }, 500);
     };
   }, [onDetected]);
 
+  onDetected = async (code) => {
+   handleSearch(code)
+  }
+
   return (
-    <div className="relative h-full">
+    <div className="relative h-dvh">
       {/* Camera */}
       <video
         ref={videoRef}
@@ -104,7 +181,7 @@ function ScannerScreen({ onDetected }: { onDetected: () => void }) {
       <div className="absolute bottom-0 w-full p-6 flex justify-between items-center bg-gradient-to-t from-black/80 to-transparent">
         <button className="text-white text-xl">📷</button>
 
-        <button className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-black text-xl">
+        <button className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-black text-xl cursor-pointer">
           ⬤
         </button>
 
@@ -113,3 +190,47 @@ function ScannerScreen({ onDetected }: { onDetected: () => void }) {
     </div>
   );
 }
+
+// function ResultScreen({
+//   barcode,
+//   onRescan,
+// }: {
+//   barcode: string | null;
+//   onRescan: () => void;
+// }) {
+//   return (
+//     <div className="h-full bg-zinc-900 p-4 flex flex-col">
+//       {/* Header */}
+//       <div className="flex items-center justify-between mb-4">
+//         <button onClick={onRescan}>←</button>
+//         <h2 className="text-lg font-semibold">Scan Result</h2>
+//         <div />
+//       </div>
+
+//       {/* Data */}
+//       <div className="bg-zinc-800 p-3 rounded-lg text-sm mb-4 break-all">
+//         {barcode || "No barcode detected"}
+//       </div>
+
+//       {/* Actions */}
+//       <div className="flex justify-center gap-4 mb-6">
+//         <button
+//           onClick={() => navigator.clipboard.writeText(barcode || "")}
+//           className="w-12 h-12 rounded-full bg-yellow-400 text-black"
+//         >
+//           📋
+//         </button>
+//       </div>
+
+//       {/* Bottom */}
+//       <div className="mt-auto flex justify-center">
+//         <button
+//           onClick={onRescan}
+//           className="w-16 h-16 bg-yellow-400 rounded-full text-black text-xl"
+//         >
+//           ⬤
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }

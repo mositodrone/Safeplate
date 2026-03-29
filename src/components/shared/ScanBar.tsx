@@ -4,17 +4,19 @@ import { useState } from "react";
 import { Camera, Barcode, Upload, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 // import { Card, CardContent } from "@/components/ui/card";
 
 // type ScanBarProps = {
 //   onSearch: (barcode: string) => void;
 // };
 
-export default function ScanBar({ onSearch }: any) {
+export default function ScanBar({ onSearch, setOpen }: any) {
   const [barcode, setBarcode] = useState("");
   const [isScanning, setIsScanning] = useState(false);
 
   const isSearchEnabled = barcode.length > 0;
+  const router = useRouter();
 
   return (
     <section className="max-w-xl h-[80dvh] mx-auto rounded-2xl shadow-md" id="scan">
@@ -47,7 +49,7 @@ export default function ScanBar({ onSearch }: any) {
           <Button
             variant="secondary"
             className="flex flex-col gap-1 h-20 cursor-pointer"
-            onClick={() => setIsScanning(true)}
+            onClick={() => router.push("/video")}
           >
             <Camera className="h-5 w-5" />
             <span className="text-xs">Scan</span>
@@ -56,6 +58,7 @@ export default function ScanBar({ onSearch }: any) {
           <Button
             variant="secondary"
             className="flex flex-col gap-1 h-20 cursor-pointer"
+            onClick={() => setOpen(true)}
           >
             <Upload className="h-5 w-5" />
             <span className="text-xs">Upload</span>

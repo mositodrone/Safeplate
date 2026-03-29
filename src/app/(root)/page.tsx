@@ -36,7 +36,7 @@ export default function ScanPage() {
       const data = await res.json();
       console.log(data);
 
-      if(!data.name) {
+      if(!data.name || !data.brand) {
         setModal("NOT_FOUND");
         toast("Product Unavailable", {
           id: "missing-product",
@@ -79,6 +79,7 @@ export default function ScanPage() {
       
       <ScanBar 
         onSearch={handleSearch}
+        setOpen={setOpenUpload}
       />
 
       <ScanResultDialog

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/database/mongoose";
 import Scan from "@/lib/database/models/scan.model";
 import User from "@/lib/database/models/user.model";
+import Product from "@/lib/database/models/product.models";
 // import { toast } from "sonner";
 // import { useRouter } from "next/navigation";
 
@@ -61,6 +62,15 @@ export async function POST(req: Request) {
       nutrition,
       allergens,
     });
+
+    // pseudo clean version
+
+    // // always create scan
+    // await Scan.create({
+    //   userId,
+    //   product: product._id,
+    //   barcode,
+    // });
 
     console.log("userId for profile:", userId)
 
