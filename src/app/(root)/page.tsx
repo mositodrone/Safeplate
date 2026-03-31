@@ -7,6 +7,7 @@ import ImageUploadDialog from "@/components/shared/ImageUploadDialog";
 // import Navbar from "@/components/shared/NavBar";
 import ScanBar from "@/components/shared/ScanBar";
 import ScanResultDialog from "@/components/shared/ScanResultDialog";
+import SearchResultsDialog from "@/components/shared/SearchResultsDialog";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -23,6 +24,10 @@ export default function ScanPage() {
 
   const [openUpload, setOpenUpload] = useState(false)
   const [uploadLoading, setUploadLoading] = useState(false)
+
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [openResults, setOpenResults] = useState(false);
 
   const router = useRouter()
 
@@ -61,11 +66,70 @@ export default function ScanPage() {
     }
   };
 
+  const handleMissingSearch = async () => {
+    if (!query) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/product?query=${query}`);
+      const data = await res.json();
+
+      console.log("Search results:", data);
+
+      setResults(data.results || []);
+      setOpenResults(true);   // 👈 open results dialog
+
+      // 👉 NEXT STEP: store results in state (later UI)
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelect = async (item: any) => {
+    try {
+      await fetch("/api/link-product", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: item.name,
+          brand: item.brand,
+          image: item.image,
+        }),
+      });
+
+      // close both dialogs
+      setOpenResults(false);
+      setModal(null);
+
+      // 👉 OPTIONAL (very nice UX)
+      // trigger refetch / show product immediately
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   return (
     <div className="space-y-6"
     >  
-      <FeedbackModal modal={modal} setModal={setModal}/>    
+      <FeedbackModal 
+        modal={modal} setModal={setModal} 
+        handleSearch={handleMissingSearch}
+        query={query}
+        setQuery={setQuery}
+      />
+      <SearchResultsDialog
+        open={openResults}
+        setOpen={setOpenResults}
+        results={results}
+        onSelect={handleSelect}
+      />    
       <HeroSection
         setOpen={setOpenUpload}
         loading={uploadLoading}

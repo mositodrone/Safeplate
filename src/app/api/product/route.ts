@@ -62,8 +62,11 @@
 
 import { NextResponse } from "next/server";
 import Product from "@/lib/database/models/product.models";
+import { connectToDatabase } from "@/lib/database/mongoose";
 
 export async function GET(req: Request) {
+  await connectToDatabase();
+
   const { searchParams } = new URL(req.url);
   const barcode = searchParams.get("barcode");
   const query = searchParams.get("query");
@@ -94,9 +97,9 @@ export async function GET(req: Request) {
 
         const results =
           data.items?.map((item: any) => ({
-            productName: item.title ?? "Unknown product",
+            name: item.title ?? "Unknown product",
             brand: item.brand ?? null,
-            imageUrl: item.images?.[0] ?? null,
+            image: item.images?.[0] ?? null,
           })) ?? [];
 
         return NextResponse.json({
@@ -118,11 +121,11 @@ export async function GET(req: Request) {
     // 🟢 -------------------------
 
     // 🥇 1. CHECK DB FIRST
-    let existing = await Product.findOne({ barcode });
+    // let existing = await Product.findOne({ barcode });
 
-    if (existing) {
-      return NextResponse.json({ product: existing, source: "db" });
-    }
+    // if (existing) {
+    //   return NextResponse.json({ product: existing, source: "db" });
+    // }
 
     // 🥈 2. OPEN FOOD FACTS (UNCHANGED)
     const offRes = await fetch(
@@ -142,9 +145,9 @@ export async function GET(req: Request) {
     if (!notFound) {
       const product = {
         barcode,
-        productName: offData.product.product_name ?? "Unknown product",
+        name: offData.product.product_name ?? "Unknown product",
         brand: offData.product.brands ?? "Unknown brand",
-        imageUrl: offData.product.image_front_url ?? null,
+        image: offData.product.image_front_url ?? null,
         ingredients:
           offData.product.ingredients_text ?? "Ingredients not available",
         allergens:
@@ -163,6 +166,27 @@ export async function GET(req: Request) {
         source: "openfoodfacts",
       };
 
+      console.log("OFF success, preparing to save...");
+
+      const result = await Product.updateOne(
+        { barcode },
+        { $setOnInsert: product },
+        { upsert: true }
+      );
+
+      console.log("Mongo result:", result);
+
+      // await Product.create({
+      //   barcode: "debug123",
+      //   name: "Debug Product",
+      // });
+
+      // await Product.updateOne(
+      //   { barcode },
+      //   { $setOnInsert: product },
+      //   { upsert: true }
+      // );
+
       return NextResponse.json(product);
     }
 
@@ -171,9 +195,9 @@ export async function GET(req: Request) {
     // 🔴 5. FINAL FALLBACK
     const fallbackProduct = {
       barcode,
-      productName: "Unknown product",
+      name: "Unknown product",
       brand: null,
-      imageUrl: null,
+      image: null,
       ingredients: [],
       allergens: [],
       nutrition: null,

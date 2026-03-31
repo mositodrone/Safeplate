@@ -14,8 +14,10 @@ import { recentScans, savedItems } from "@/constants";
 import { GetUserScans, GetUserScanStats } from "@/lib/actions/scan.actions";
 import SavedScanDialog from "@/components/shared/SavedScanDialog";
 import ProfileComponent from "@/components/shared/ProfileComponent";
+import { connectToDatabase } from "@/lib/database/mongoose";
 
-const Profile = async () => {    
+const Profile = async () => {  
+  await connectToDatabase();  
   // const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
   console.log(userId) 

@@ -16,31 +16,18 @@ type ModalType = "NOT_FOUND" | null;
 export default function FeedbackModal({
   modal,
   setModal,
+  handleSearch,
+  query,
+  setQuery
 }: {
   modal: ModalType;
   setModal: (value: ModalType) => void;
+  handleSearch: void;
+  query: string
+  setQuery: (value: string) => void;
 }) {
-  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
-    if (!query) return;
-
-    setLoading(true);
-
-    try {
-      const res = await fetch(`/api/product?query=${query}`);
-      const data = await res.json();
-
-      console.log("Search results:", data);
-
-      // 👉 NEXT STEP: store results in state (later UI)
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Dialog open={modal === "NOT_FOUND"} onOpenChange={() => setModal(null)}>
@@ -61,10 +48,11 @@ export default function FeedbackModal({
             placeholder="Search product name..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            className="flex-1 text-gray-900"
           />
 
           <Button
-            onClick={handleSearch}
+            onClick={() => handleSearch}
             disabled={loading}
             className="cursor-pointer"
           >

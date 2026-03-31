@@ -39,6 +39,15 @@ export default function ScanResultDialog({
     
     .slice(0, 3)
     .join(" ");
+
+   const shortBrandString = product.brand
+    .trim()
+    .split(/\s+/)
+    
+    .slice(0, 1)
+    .join(" ");
+
+   const shortBrand = shortBrandString.slice(0, -1)
    
    console.log(product)
 
@@ -54,7 +63,7 @@ export default function ScanResultDialog({
 
         <DialogHeader>
           <DialogTitle>
-            <p className="font-semibold text-gray-900">{shortName || "Scan Result"}</p>
+            <p className="font-semibold text-gray-900">{shortName !== "Unknown product"?shortName || "Scan Result" : shortBrand}</p>
             <p className="text-sm text-muted-foreground">
               {product.brand || 'Food product'}
             </p>
