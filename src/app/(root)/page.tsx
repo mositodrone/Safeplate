@@ -41,7 +41,7 @@ export default function ScanPage() {
       const data = await res.json();
       console.log(data);
 
-      if(!data.name || !data.brand) {
+      if(res.status === 404 || !data.name || !data.brand) {
         setModal("NOT_FOUND");
         toast("Product Unavailable", {
           id: "missing-product",
@@ -73,6 +73,20 @@ export default function ScanPage() {
 
     try {
       const res = await fetch(`/api/product?query=${query}`);
+
+      if (res.status === 404) {
+        setModal("NOT_FOUND");
+        toast("Product Unavailable", {
+          id: "missing-product",
+          description: "This product is Not available yet.",
+          // action: {
+          //   label: "View",
+          //   onClick: () => router.push(`/profile?barcode=${barcode}`),
+          // },
+        });
+        return;
+      }
+
       const data = await res.json();
 
       console.log("Search results:", data);

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import LoadingOverlay from "./LoadingOverlay";
 
 type ModalType = "NOT_FOUND" | null;
 
@@ -22,7 +23,7 @@ export default function FeedbackModal({
 }: {
   modal: ModalType;
   setModal: (value: ModalType) => void;
-  handleSearch: void;
+  handleSearch: () => Promise<void>;
   query: string
   setQuery: (value: string) => void;
 }) {
@@ -31,7 +32,7 @@ export default function FeedbackModal({
 
   return (
     <Dialog open={modal === "NOT_FOUND"} onOpenChange={() => setModal(null)}>
-      <DialogContent className="max-w-sm text-center space-y-4">
+      <DialogContent className="max-w-sm text-center space-y-4 relative">
         <DialogHeader>
           <DialogTitle className="text-blue-950">
             Product Not Found
@@ -52,7 +53,12 @@ export default function FeedbackModal({
           />
 
           <Button
-            onClick={() => handleSearch}
+            onClick={async () => {
+              setLoading(true);
+              await handleSearch();
+              setQuery("");
+              setLoading(false); 
+            }}
             disabled={loading}
             className="cursor-pointer"
           >
@@ -67,6 +73,8 @@ export default function FeedbackModal({
         >
           Close
         </Button>
+        
+        <LoadingOverlay loading={loading} />
       </DialogContent>
     </Dialog>
   );

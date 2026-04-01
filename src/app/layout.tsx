@@ -3,18 +3,17 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Lato } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { ClerkProvider, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import SidebarPanel from "@/components/shared/Sidebar";
-import Image from "next/image";
+import { ClerkProvider } from "@clerk/nextjs";
+
 import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import Sidebar from "@/components/shared/Sidebar";
+
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "PlateSafe",
   description: "Know what’s on your plate",
+  viewport: "width=device-width, initial-scale=1",
 };
 
 const lato = Lato({
