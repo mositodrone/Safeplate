@@ -79,6 +79,7 @@ export default function ImageUploadDialog({
       setLoading(false);
       // onUpload(file);
       setFile(null);
+      setOpen(false);
     }
   };
 
@@ -86,7 +87,7 @@ export default function ImageUploadDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
         <DialogClose asChild>
-          <button className="absolute right-4 top-4 rounded-full p-2 bg-gray-100 hover:bg-gray-200 shadow-sm transition cursor-pointer">
+          <button className="absolute right-4 top-4 rounded-full p-2 bg-gray-100 hover:bg-gray-200 shadow-sm transition cursor-pointer" onClick={() => setOpen(false)}>
             <X className="h-4 w-4 text-gray-700" />
           </button>
         </DialogClose>

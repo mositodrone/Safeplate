@@ -13,7 +13,6 @@ import { Toaster } from "@/components/ui/sonner";
 export const metadata: Metadata = {
   title: "PlateSafe",
   description: "Know what’s on your plate",
-  viewport: "width=device-width, initial-scale=1",
 };
 
 const lato = Lato({

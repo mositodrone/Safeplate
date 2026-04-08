@@ -67,7 +67,12 @@ const ScanActions = ({setOpen, product, mode}: any) => {
       }
       if(res.status === 200) {
         toast("Saved successfully", {
-          description: "Added to your collection",
+          id: "successful-save",
+          description: "This product has been added to your collection",
+           action: {
+              label: "View",
+              onClick: () => router.push(`/profile`),
+            },
         });
       }
       console.log("Saved successfully");

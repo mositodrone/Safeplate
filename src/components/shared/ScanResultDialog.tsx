@@ -29,8 +29,7 @@ export default function ScanResultDialog({
 
   const [mode, setMode] = useState("save");
 
-  // if (loading) return <ScanLoader/>;
-  //  if (error) return <p className="text-red-500">Oop's something went wrong, Try again</p>;
+   if (error) return <p className="text-red-500">Oop's something went wrong, Try again</p>;
    if (!product) return null;
 
    const shortName = product?.name
@@ -54,7 +53,6 @@ export default function ScanResultDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
 
-
       <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
 
          <DialogClose asChild>
@@ -62,18 +60,6 @@ export default function ScanResultDialog({
             <X className="h-4 w-4  text-gray-700" />
           </button>
         </DialogClose>
-        {/* 🔄 LOADING STATE */}
-        {loading && <ScanLoader />}
-
-        {/* ❌ ERROR STATE */}
-        {!loading && error && (
-          <p className="text-red-500 text-center py-10">
-            Oop's something went wrong, Try again
-          </p>
-        )}
-
-        {!loading && !error && product && (
-          <>
             <DialogHeader>
               <DialogTitle>
                 <p className="font-semibold text-gray-900">{shortName !== "Unknown product"?shortName || "Scan Result" : shortBrand}</p>
@@ -182,8 +168,6 @@ export default function ScanResultDialog({
               </SignedOut>
 
             </DialogFooter>
-          </>      
-        )}
       </DialogContent>
     </Dialog>
   );

@@ -32,7 +32,7 @@ export default function SearchResultsDialog({
 
         {/* 🧠 Header */}
         <DialogHeader>
-          <DialogTitle>Search Results</DialogTitle>
+          <DialogTitle><p className="text-gray-800">Search Results</p></DialogTitle>
           <DialogDescription>
             Select the correct product
           </DialogDescription>
