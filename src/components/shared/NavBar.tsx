@@ -83,6 +83,57 @@ export default function Navbar() {
               <Sheet>
                 <SheetTrigger asChild>
                   <button className="rounded-md border border-white/60 px-4 py-2 text-sm text-white hover:bg-white hover:text-black transition cursor-pointer">
+                    <Menu className="cursor-pointer"/>
+                  </button>
+                </SheetTrigger>
+
+                <SheetContent
+                  side="right"
+                  className="w-72 bg-black text-white border-l border-zinc-800"
+                >
+                  {/* 👤 User */}
+                  <div className="pt-10 pb-6 border-b border-zinc-800 flex justify-end">
+                    <UserButton
+                      showName
+                      appearance={{
+                        variables: {
+                          colorPrimary: "#ff0000",
+                          colorText: "#d4d4d8",
+                        },
+                      }}
+                    />
+                  </div>
+
+                  {/* 📍 Navigation */}
+                  <div className="flex flex-col gap-2 mt-8">
+                    {navLinks.slice(0, 6).map((link) => {
+                      const isActive = link.route === pathname;
+
+                      return (
+                        <SheetClose asChild key={link.route}>
+                          <Link
+                            href={link.route}
+                            className={`
+                              px-4 py-3 rounded-lg transition-all duration-200
+                              hover:bg-zinc-800 hover:translate-x-1
+                              ${
+                                isActive
+                                  ? "bg-zinc-800 font-semibold mx-4 text-white"
+                                  : "text-zinc-400 hover:text-white"
+                              }
+                            `}
+                          >
+                            {link.label}
+                          </Link>
+                        </SheetClose>
+                      );
+                    })}
+                  </div>
+                </SheetContent>
+              </Sheet>
+              {/* <Sheet>
+                <SheetTrigger asChild>
+                  <button className="rounded-md border border-white/60 px-4 py-2 text-sm text-white hover:bg-white hover:text-black transition cursor-pointer">
                     <Menu />
                   </button>
                 </SheetTrigger>
@@ -123,7 +174,7 @@ export default function Navbar() {
                     })}
                 </div>
               </SheetContent>
-            </Sheet>    
+            </Sheet>     */}
               
             </div>
           </SignedIn>
