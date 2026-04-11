@@ -82,10 +82,22 @@ export default function ImageUploadDialog({
       setOpen(false);
     }
   };
-
+// sm:max-w-md max-h-[80vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95  
+      
+//       data-[state=open]:duration-200
+//       data-[state=closed]:duration-150
+//       data-[state=open]:ease-out
+//       data-[state=closed]:ease-in
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+      <DialogContent className="
+      sm:max-w-md
+      max-h-[80vh]
+      overflow-y-auto
+      opacity-0 scale-95
+      transition-all duration-200 ease-out
+      data-[state=open]:opacity-100
+      data-[state=open]:scale-100">
         <DialogClose asChild>
           <button className="absolute right-4 top-4 rounded-full p-2 bg-gray-100 hover:bg-gray-200 shadow-sm transition cursor-pointer" onClick={() => setOpen(false)}>
             <X className="h-4 w-4 text-gray-700" />

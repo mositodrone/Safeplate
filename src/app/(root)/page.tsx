@@ -10,7 +10,7 @@ import ScanLoader from "@/components/shared/ScanLoader";
 import ScanResultDialog from "@/components/shared/ScanResultDialog";
 import SearchResultsDialog from "@/components/shared/SearchResultsDialog";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function ScanPage() {
@@ -41,6 +41,8 @@ export default function ScanPage() {
       const res = await fetch(`/api/product?barcode=${barcode}`);
       const data = await res.json();
       console.log(data);
+
+       await new Promise((r) => setTimeout(r, 400));
 
       if(res.status === 404 || !data.name || !data.brand) {
         setModal("NOT_FOUND");
@@ -74,6 +76,8 @@ export default function ScanPage() {
 
     try {
       const res = await fetch(`/api/product?query=${query}`);
+
+       await new Promise((r) => setTimeout(r, 400));
 
       if (res.status === 404) {
         setModal("NOT_FOUND");
@@ -131,6 +135,13 @@ export default function ScanPage() {
     }
   };
 
+  const scanRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToScan = () => {
+    scanRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
 
   return (
     <div className="space-y-6"
@@ -150,6 +161,7 @@ export default function ScanPage() {
       <HeroSection
         setOpen={setOpenUpload}
         loading={uploadLoading}
+        scrollToScan={scrollToScan}
       />
       
       <ImageUploadDialog
@@ -158,7 +170,8 @@ export default function ScanPage() {
         onSearch={handleSearch} 
       />
       
-      <ScanBar 
+      <ScanBar
+        scanRef={scanRef} 
         onSearch={handleSearch}
         setOpen={setOpenUpload}
       />

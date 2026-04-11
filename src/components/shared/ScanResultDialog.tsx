@@ -53,7 +53,7 @@ export default function ScanResultDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
 
-      <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95">
 
          <DialogClose asChild>
           <button className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 bg-gray-100 hover:bg-gray-200 transition shadow-sm">

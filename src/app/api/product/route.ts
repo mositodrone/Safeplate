@@ -94,6 +94,8 @@ export async function GET(req: Request) {
         }
 
         const data = await res.json();
+        
+        await new Promise((r) => setTimeout(r, 400));
 
         const results =
           data.items?.map((item: any) => ({
@@ -139,6 +141,8 @@ export async function GET(req: Request) {
     );
 
     const offData = await offRes.json();
+
+     await new Promise((r) => setTimeout(r, 400));
 
     const notFound = offData.status === 0 || !offData.product;
 

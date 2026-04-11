@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-const HeroSection = ({ setOpen }: any) => {
+const HeroSection = ({ setOpen, scrollToScan }: any) => {
   const [error, setError] = useState<string | null>(null);
+
   return (
     <section
       className="relative min-h-[100vh] w-full items-center bg-cover bg-no-repeat bg-center"
@@ -25,10 +26,10 @@ const HeroSection = ({ setOpen }: any) => {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <button className="px-8 py-4 rounded-xl border border-blue-600 text-blue-400 font-semibold hover:bg-blue-700
             hover:text-white
-            transition cursor-pointer">
-              <a href="#scan">
+            transition cursor-pointer" onClick={scrollToScan}>
+              <p>
                 Scan a Product
-              </a>
+              </p>
             </button>
 
             <button className="px-8 py-4 rounded-xl border border-red-500 text-red-400 font-semibold hover:bg-red-500 hover:text-white transition cursor-pointer" onClick={()=> setOpen(true)}>

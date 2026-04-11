@@ -21,7 +21,7 @@ export default function SearchResultsDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95">
         
         {/* ❌ Close Button */}
         <DialogClose asChild>

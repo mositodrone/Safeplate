@@ -118,7 +118,7 @@ export default function FeedbackModal({
   const [loading, setLoading] = useState(false);
   return (
     <Dialog open={modal === 'NOT_FOUND'} onOpenChange={() => setModal(null)}>
-      <DialogContent className="max-w-sm text-center">
+      <DialogContent className="max-w-sm text-center sm:max-w-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95">
         <DialogHeader>
           <DialogTitle className="text-blue-950">
             {modal === "NOT_FOUND" && "Product Not Found"}

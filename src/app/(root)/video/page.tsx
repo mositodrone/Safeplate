@@ -35,6 +35,8 @@ export default function ScannerUI() {
 
       console.log(data);
 
+       await new Promise((r) => setTimeout(r, 400));
+
       if (!data.name || !data.brand) {
         setModal("NOT_FOUND");
         toast("Product Unavailable", {

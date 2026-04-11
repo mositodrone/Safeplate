@@ -19,7 +19,8 @@ export const InsufficientCreditsModal = () => {
 
   return (
     <AlertDialog defaultOpen>
-      <AlertDialogContent>
+      <AlertDialogContent className="
+      sm:max-w-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95">
         <AlertDialogHeader>
           <div className="flex-between">
             <p className="p-16-semibold text-dark-400">Insufficient Credits</p>

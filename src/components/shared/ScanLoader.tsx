@@ -11,7 +11,7 @@ import {
 const ScanLoader = ({ open }: { open: boolean }) => {
   return (
     <Dialog open={open}>
-      <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto pointer-events-none">
+      <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto pointer-events-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95">
 
         <DialogHeader>
           <DialogTitle>

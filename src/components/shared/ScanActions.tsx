@@ -52,6 +52,8 @@ const ScanActions = ({setOpen, product, mode}: any) => {
         }),
       });
 
+       await new Promise((r) => setTimeout(r, 400));
+
       if (!res.ok) {
          if (res.status === 409) {
           toast("Already saved", {
@@ -82,7 +84,9 @@ const ScanActions = ({setOpen, product, mode}: any) => {
       setSaveInfo("Saved successfully");
       await delay(2500);
       setSaveInfo("Save");
-      setOpen(false);
+      setTimeout(() => {
+        setOpen(false);
+      }, 200)
 
     } catch (err) {
       console.error(err);

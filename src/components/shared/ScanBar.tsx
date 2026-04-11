@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 //   onSearch: (barcode: string) => void;
 // };
 
-export default function ScanBar({ onSearch, setOpen }: any) {
+export default function ScanBar({ onSearch, setOpen, scanRef }: any) {
   const [barcode, setBarcode] = useState("");
   const [isScanning, setIsScanning] = useState(false);
 
@@ -19,7 +19,7 @@ export default function ScanBar({ onSearch, setOpen }: any) {
   const router = useRouter();
 
   return (
-    <section className="max-w-xl h-[80dvh] mx-auto rounded-2xl shadow-md" id="scan">
+    <section className="max-w-xl h-[80dvh] mx-auto rounded-2xl shadow-md" ref={scanRef} id="scan">
       <div className="p-6 space-y-5">
         <h2 className="text-xl font-semibold">Scan a product</h2>
         <p className="text-md font-semibold text-muted-foreground">

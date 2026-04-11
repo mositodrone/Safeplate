@@ -15,6 +15,8 @@ export const fetchFromGoUPC = async (barcode: string) => {
 
     const product = res.data.product;
 
+     await new Promise((r) => setTimeout(r, 400));
+
     if (!product) return null;
 
     return {
