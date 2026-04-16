@@ -170,7 +170,7 @@ export async function GET(req: Request) {
         source: "openfoodfacts",
       };
 
-      console.log("OFF success, preparing to save...");
+      // console.log("OFF success, preparing to save...");
 
       const result = await Product.updateOne(
         { barcode },

@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation'
 import { Button } from '../ui/button'
 import React, { useState } from 'react'
 import { Menu, User } from 'lucide-react'
+import { startRouteLoading } from "@/hooks/useRouteLoader";
 
 // const CustomLink = React.forwardRef((ref, {children}: any) => (
 //   <a href={ref}>{children}</a>
@@ -45,7 +46,7 @@ export default function Navbar() {
                   <li key={link.route} className={`hover:text-white cursor-pointer ${
                     isActive ? 'bg-purple-gradient text-white' : 'text-gray-700'
                   }`}>
-                    <Link href={link.route}>
+                    <Link href={link.route} onClick={ startRouteLoading}>
                       <Image 
                         src={link.icon}
                         alt="logo"
@@ -81,7 +82,7 @@ export default function Navbar() {
               </button>
 
               <Sheet>
-                <SheetTrigger asChild>
+                <SheetTrigger asChild className="cursor-pointer">
                   <button className="rounded-md border border-white/60 px-4 py-2 text-sm text-white hover:bg-white hover:text-black transition cursor-pointer">
                     <Menu className="cursor-pointer"/>
                   </button>
@@ -89,10 +90,15 @@ export default function Navbar() {
 
                 <SheetContent
                   side="right"
-                  className="w-72 bg-black text-white border-l border-zinc-800"
+
+                  className="w-72 bg-black text-white border-l border-zinc-800
+                  
+                  transform transition-all duration-300 ease-out
+                  data-[state=open]:translate-x-0 data-[state=open]:opacity-100
+                  data-[state=closed]:translate-x-full data-[state=closed]:opacity-0"
                 >
                   {/* 👤 User */}
-                  <div className="pt-10 pb-6 border-b border-zinc-800 flex justify-end">
+                  <div className="pt-10 pb-6 border-b border-zinc-800 flex justify-center">
                     <UserButton
                       showName
                       appearance={{

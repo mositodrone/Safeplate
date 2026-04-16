@@ -20,7 +20,7 @@ const Profile = async () => {
   await connectToDatabase();  
   // const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
-  console.log(userId) 
+  // console.log(userId) 
 
   if (!userId) redirect("/sign-in");
   await connectDB();
@@ -30,7 +30,7 @@ const Profile = async () => {
   const scanAmount = await GetUserScanStats(userId);
 
   const { total, safe, risky } = scanAmount;
-  console.log("saved:", scans)
+  // console.log("saved:", scans)
   // const images = await getUserImages({ page, userId: user._id });
 
   return (

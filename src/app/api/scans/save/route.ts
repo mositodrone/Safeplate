@@ -7,7 +7,7 @@ import Product from "@/lib/database/models/product.models";
 // import { toast } from "sonner";
 // import { useRouter } from "next/navigation";
 
-console.log("API SAVE ROUTE HIT");
+// console.log("API SAVE ROUTE HIT");
 
 // const router = useRouter()
 

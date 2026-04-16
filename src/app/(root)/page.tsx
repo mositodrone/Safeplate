@@ -9,6 +9,8 @@ import ScanBar from "@/components/shared/ScanBar";
 import ScanLoader from "@/components/shared/ScanLoader";
 import ScanResultDialog from "@/components/shared/ScanResultDialog";
 import SearchResultsDialog from "@/components/shared/SearchResultsDialog";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -20,6 +22,8 @@ export default function ScanPage() {
   const [error, setError] = useState<string | null>(null);
 
   type ModalType = "NOT_FOUND" | null;
+
+  NProgress.configure({ showSpinner: false });
 
   const [modal, setModal] = useState<ModalType>(null);
 
@@ -37,10 +41,11 @@ export default function ScanPage() {
       setLoading(true);
       setError(null);
       setOpen(true);
+      NProgress.start();
 
       const res = await fetch(`/api/product?barcode=${barcode}`);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
 
        await new Promise((r) => setTimeout(r, 400));
 
@@ -66,6 +71,7 @@ export default function ScanPage() {
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
+      NProgress.done();
     }
   };
 
@@ -73,6 +79,7 @@ export default function ScanPage() {
     if (!query) return;
 
     setLoading(true);
+    NProgress.start();
 
     try {
       const res = await fetch(`/api/product?query=${query}`);
@@ -94,7 +101,7 @@ export default function ScanPage() {
 
       const data = await res.json();
 
-      console.log("Search results:", data);
+      // console.log("Search results:", data);
 
       setResults(data.results || []);
       setOpenResults(true);   // 👈 open results dialog
@@ -104,6 +111,7 @@ export default function ScanPage() {
       console.error(err);
     } finally {
       setLoading(false);
+      NProgress.done();
     }
   };
 
@@ -167,7 +175,10 @@ export default function ScanPage() {
       <ImageUploadDialog
         open={openUpload}
         setOpen={setOpenUpload}
-        onSearch={handleSearch} 
+        onSearch={handleSearch}
+        handleSearch={handleMissingSearch}
+        query={query}
+        setQuery={setQuery} 
       />
       
       <ScanBar

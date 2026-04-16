@@ -33,7 +33,7 @@ export default function ScannerUI() {
       const res = await fetch(`/api/product?barcode=${code}`);
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
 
        await new Promise((r) => setTimeout(r, 400));
 
@@ -138,7 +138,7 @@ useEffect(() => {
             active = false;
 
             const code = result.getText();
-            console.log("Scanned:", code);
+            // console.log("Scanned:", code);
 
             if (controls) controls.stop();
             onDetected(code);

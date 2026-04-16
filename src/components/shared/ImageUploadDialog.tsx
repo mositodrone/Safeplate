@@ -15,12 +15,19 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { detectBarcodeZXing } from "@/lib/barcode/detectBarcode";
 import { useRouter } from "next/navigation";
+import FeedbackModal from "./feedback-modal";
+import { toast } from "sonner";
+import ScanLoader from "./ScanLoader";
+import NProgress from "nprogress"
 
 export default function ImageUploadDialog({
   open,
   setOpen,
   onSearch,
   onUpload,
+  handleSearch,
+  query,
+  setQuery,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -30,6 +37,9 @@ export default function ImageUploadDialog({
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  type ModalType = "NOT_FOUND" | null;
+
+  const [modal, setModal] = useState<ModalType>(null);
   
   const preview = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
@@ -56,12 +66,21 @@ export default function ImageUploadDialog({
     if (!file) return;
     try {
       setLoading(true);
-
+      NProgress.start();
       const barcode = await detectBarcodeZXing(file)
 
       console.log("image barcode:", barcode)
 
       if (!barcode) {
+        setModal("NOT_FOUND");
+        toast("Product Unavailable", {
+          id: "missing-product",
+          description: "This product is Not available yet.",
+          // action: {
+          //   label: "View",
+          //   onClick: () => router.push(`/profile?barcode=${barcode}`),
+          // },
+        });
       setError("No barcode detected");
       return;
     }
@@ -80,24 +99,28 @@ export default function ImageUploadDialog({
       // onUpload(file);
       setFile(null);
       setOpen(false);
+      NProgress.done();
     }
   };
-// sm:max-w-md max-h-[80vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95  
-      
-//       data-[state=open]:duration-200
-//       data-[state=closed]:duration-150
-//       data-[state=open]:ease-out
-//       data-[state=closed]:ease-in
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <FeedbackModal 
+        modal={modal} setModal={setModal} 
+        handleSearch={handleSearch}
+        query={query}
+        setQuery={setQuery}
+      />
+      <ScanLoader
+        open={loading}
+      /> 
       <DialogContent className="
-      sm:max-w-md
-      max-h-[80vh]
-      overflow-y-auto
-      opacity-0 scale-95
-      transition-all duration-200 ease-out
-      data-[state=open]:opacity-100
-      data-[state=open]:scale-100">
+      sm:max-w-md max-h-[80vh] overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95
+
+      data-[state=open]:duration-200
+      data-[state=closed]:duration-150
+      data-[state=open]:ease-out
+      data-[state=closed]:ease-in">
         <DialogClose asChild>
           <button className="absolute right-4 top-4 rounded-full p-2 bg-gray-100 hover:bg-gray-200 shadow-sm transition cursor-pointer" onClick={() => setOpen(false)}>
             <X className="h-4 w-4 text-gray-700" />

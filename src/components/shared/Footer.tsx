@@ -30,7 +30,7 @@ export default function Footer() {
             </p>
 
             {/* Socials */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 cursor-pointer">
               <SocialIcon icon={<Facebook size={16} />} />
               <SocialIcon icon={<Instagram size={16} />} />
               <SocialIcon icon={<Linkedin size={16} />} />
@@ -41,24 +41,24 @@ export default function Footer() {
           {/* Sitemap */}
           <FooterColumn
             title="Sitemap"
-            links={["About Us", "Space design", "Customer Stories", "FAQ"]}
+            links={["About Us", "Food Technology", "Customer Stories", "FAQ"]}
           />
 
           {/* Partners */}
-          <FooterColumn
+          {/* <FooterColumn
             title="Partners"
             links={["Architects", "Co-Working", "Real Estate"]}
-          />
+          /> */}
 
           {/* Services */}
-          <FooterColumn
+          {/* <FooterColumn
             title="Services"
             links={[
               "Furniture as Service",
               "Second-Hand Marketplace",
               "Enky Invest",
             ]}
-          />
+          /> */}
         </div>
 
         {/* Bottom branding */}
